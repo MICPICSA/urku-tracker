@@ -1,256 +1,830 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>URKU Availability Tracker</title>
-<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}#root{min-height:100vh}</style>
-<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+  #root { min-height: 100vh; }
+</style>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 <body>
 <div id="root"></div>
-<script>
-(function(){
-var e=React.createElement,us=React.useState,ue=React.useEffect,uc=React.useCallback,ur=React.useRef;
-var SB="https://iclojegqcwshewcakedq.supabase.co";
-var SK="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImljbG9qZWdxY3dzaGV3Y2FrZWRxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MDE5MjIsImV4cCI6MjA5NDE3NzkyMn0.wnhMExeuoOx2uJdSfsNMXgf0lnjziy4uepTlSL0PS3w";
-var HD={apikey:SK,Authorization:"Bearer "+SK,"Content-Type":"application/json"};
-function dg(k){return fetch(SB+"/rest/v1/app_data?key=eq."+k+"&select=value",{headers:HD}).then(function(r){return r.json()}).then(function(d){return d&&d[0]&&d[0].value!==undefined?d[0].value:null}).catch(function(){return null})}
-function ds(k,v){return fetch(SB+"/rest/v1/app_data?key=eq."+k,{method:"PATCH",headers:Object.assign({},HD,{Prefer:"return=minimal"}),body:JSON.stringify({value:v,updated_at:new Date().toISOString()})}).catch(function(){})}
-var U=[
-{id:"michael",name:"Michael",role:"founder",pwd:"Urku#CEO901",em:"michael@urkuexpressions.com"},
-{id:"domi",name:"Domi",role:"procurement",pwd:"Flor$Compra47",em:"domi@urkuexpressions.com"},
-{id:"francisco",name:"Francisco",role:"ops_manager",pwd:"Ops!Gateway63",em:"francisco@urkuexpressions.com"},
-{id:"caro",name:"Caro",role:"sales",pwd:"Rosa%Luna55",em:"caro@urkuexpressions.com"},
-{id:"lucero",name:"Lucero",role:"sales",pwd:"Star#Bloom82",em:"lucero@urkuexpressions.com"},
-{id:"adriana",name:"Adriana",role:"sales",pwd:"Andes!Venta39",em:"adriana@urkuexpressions.com"}];
-var BT=["HB","QB","FB","TB"],CH=["FARM DIRECT","CAL AIR","FOB QUITO"];
-function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
-function fmt(d){return new Date(d).toLocaleString()}
-function er(){return{id:uid(),qty:"",boxType:"HB",variety:"",length:"",farm:"",stems:"",pt:"",pc:"",ch:"FARM DIRECT"}}
-function ri(r){return r==="founder"?"\uD83D\uDC51":r==="procurement"?"\uD83D\uDCE6":r==="ops_manager"?"\u2699\uFE0F":"\uD83D\uDCBC"}
-function ip(r){return r==="procurement"||r==="ops_manager"}
-var TEN={enter:"Enter",user:"Username",pass:"Password",wrong:"Incorrect password.",founder:"Founder & CEO",procurement:"Procurement",sales:"Sales",ops_manager:"Ops Manager",tA:"Availability",tU:"Upload List",tR:"Reservations",tAu:"Audit Log",tUs:"Users",va:"View As",ep:"Exit Preview",lo:"Logout",la:"ES",dt:"List Day",mon:"Monday",tue:"Tuesday",ar:"+ Add Row",pub:"Publish List",cl:"Clear",by:"By",at:"at",qty:"QTY",box:"Box",vr:"Variety",len:"Len(cm)",farm:"Farm",st:"Stems",pt:"$/Transfer",pc:"$/Card",ch:"Channel",av:"Avail",ac:"Actions",act:"ACTIVE",atr:"AT RISK",exp:"EXPIRED",mn:"Mon/Tue until 12:30 PM",tn:"Ships: Wed/Thu/Fri",res:"Reserve",qr:"Boxes to reserve:",cf:"Confirm",ca:"Cancel",nr:"No reservations yet.",vo:"Void",ti:"Time",un:"User",an:"Action",de:"Detail",na:"No activity.",ed:"Edit",dl:"Del",dll:"Delete List",ex:"Expire",rs:"Restore",nl:"No lists published yet.",pa:"Previewing as",adn:"Michael retains full admin control",of:"of",cd:"Delete row?",cdl:"Delete list?",cv:"Void reservation?",ut:"User Management",np:"New Password",up:"Update",po:"Updated.",rd:"Reset",io:"INTERNAL OPERATIONS SYSTEM",sy:"Syncing...",sc:"Connected",of2:"Offline"};
-var TES={enter:"Entrar",user:"Usuario",pass:"Contrase\u00f1a",wrong:"Contrase\u00f1a incorrecta.",founder:"Fundador y CEO",procurement:"Compras",sales:"Ventas",ops_manager:"Gerente de Ops",tA:"Disponibilidad",tU:"Subir Lista",tR:"Reservas",tAu:"Auditor\u00eda",tUs:"Usuarios",va:"Ver como",ep:"Salir Vista",lo:"Salir",la:"EN",dt:"D\u00eda de Lista",mon:"Lunes",tue:"Martes",ar:"+ Agregar Fila",pub:"Publicar",cl:"Limpiar",by:"Por",at:"el",qty:"CANT",box:"Caja",vr:"Variedad",len:"Largo(cm)",farm:"Finca",st:"Tallos",pt:"$/Transf",pc:"$/Tarj",ch:"Canal",av:"Disp",ac:"Acciones",act:"ACTIVO",atr:"EN RIESGO",exp:"EXPIRADO",mn:"Lun/Mar hasta 12:30 PM",tn:"Sale: Mi\u00e9/Jue/Vie",res:"Reservar",qr:"Cajas a reservar:",cf:"Confirmar",ca:"Cancelar",nr:"Sin reservas.",vo:"Anular",ti:"Hora",un:"Usuario",an:"Acci\u00f3n",de:"Detalle",na:"Sin actividad.",ed:"Editar",dl:"Elim",dll:"Eliminar Lista",ex:"Expirar",rs:"Restaurar",nl:"No hay listas.",pa:"Vista previa como",adn:"Michael mantiene control total",of:"de",cd:"\u00bfEliminar fila?",cdl:"\u00bfEliminar lista?",cv:"\u00bfAnular reserva?",ut:"Gesti\u00f3n de Usuarios",np:"Nueva Contrase\u00f1a",up:"Actualizar",po:"Actualizada.",rd:"Restablecer",io:"SISTEMA INTERNO DE OPERACIONES",sy:"Sincronizando...",sc:"Conectado",of2:"Sin conexi\u00f3n"};
-var TT={en:TEN,es:TES};
-var SCC={active:{bg:"#dcfce7",c:"#166534",bd:"#86efac"},"at-risk":{bg:"#fef9c3",c:"#854d0e",bd:"#fde047"},expired:{bg:"#fee2e2",c:"#991b1b",bd:"#fca5a5"}};
-function gs(l){if(l.ms)return l.ms;var n=new Date(),u=new Date(l.at);if(l.day==="monday"){var d1=new Date(u);d1.setHours(12,30,0,0);var d2=new Date(d1);d2.setDate(d1.getDate()+1);return n<=d1?"active":n<=d2?"at-risk":"expired"}var f=new Date(u),w=u.getDay();f.setDate(u.getDate()+(w<=5?5-w:5+7-w));f.setHours(23,59,59,0);return n<=f?"active":"expired"}
-function s(tag,props){var args=[tag,props||null];for(var i=2;i<arguments.length;i++)args.push(arguments[i]);return e.apply(null,args)}
+<script type="text/babel" data-presets="env,react">
+const { useState, useEffect } = React;
 
-/* ── Foot ── */
-function Ft(){return s("div",{style:{textAlign:"center",padding:"20px 16px",borderTop:"1px solid #e2e8f0",marginTop:28,color:"#9ca3af",fontSize:11}},"Desarrollado por ",s("a",{href:"https://www.armafaro.com/acerca-de",target:"_blank",rel:"noopener noreferrer",style:{color:"#7C3AED",fontWeight:700,textDecoration:"none"}},"Michael Llerena"),", ",s("a",{href:"https://www.armafaro.com/acerca-de",target:"_blank",rel:"noopener noreferrer",style:{color:"#7C3AED",fontWeight:600,textDecoration:"none"}},"www.armafaro.com"))}
+/* ══════════════════════════════════════════════════════════════════════════
+   CONFIGURATION
+   ══════════════════════════════════════════════════════════════════════════ */
 
-/* ── Logo ── */
-function UL(p){return p.ld?s("img",{src:p.ld,alt:"URKU",style:{height:p.h||50,width:"auto",objectFit:"contain",display:"block",filter:p.inv?"invert(1) brightness(2)":"none"}}):s("span",{style:{fontWeight:900,letterSpacing:5,fontSize:(p.h||50)*0.45,fontFamily:"Georgia,serif",color:p.inv?"#fff":"#1a1a1a"}},"URKU")}
+const USERS = [
+  { id: "michael",   name: "Michael",   role: "founder",     pwd: "Urku#CEO901",   email: "michael@urkuexpressions.com" },
+  { id: "domi",      name: "Domi",      role: "procurement", pwd: "Flor$Compra47", email: "domi@urkuexpressions.com" },
+  { id: "francisco", name: "Francisco", role: "ops_manager", pwd: "Ops!Gateway63", email: "francisco@urkuexpressions.com" },
+  { id: "caro",      name: "Caro",      role: "sales",       pwd: "Rosa%Luna55",   email: "caro@urkuexpressions.com" },
+  { id: "lucero",    name: "Lucero",    role: "sales",       pwd: "Star#Bloom82",  email: "lucero@urkuexpressions.com" },
+  { id: "adriana",   name: "Adriana",   role: "sales",       pwd: "Andes!Venta39", email: "adriana@urkuexpressions.com" },
+];
 
-/* ── Btn ── */
-function Bt(p){return s("button",{onClick:p.onClick,style:Object.assign({background:p.bg||"#7C3AED",border:"none",borderRadius:8,color:p.color||"#fff",padding:10,cursor:"pointer",fontWeight:600,fontSize:12},p.sx||{})},p.children)}
+const BOX_TYPES = ["HB", "QB", "FB", "TB"];
+const CHANNELS  = ["FARM DIRECT", "CAL AIR", "FOB QUITO"];
+const SB_URL = "https://iclojegqcwshewcakedq.supabase.co";
+const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImljbG9qZWdxY3dzaGV3Y2FrZWRxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MDE5MjIsImV4cCI6MjA5NDE3NzkyMn0.wnhMExeuoOx2uJdSfsNMXgf0lnjziy4uepTlSL0PS3w";
+const SB_HEADERS = { apikey: SB_KEY, Authorization: "Bearer " + SB_KEY, "Content-Type": "application/json" };
+const SK = { l: "lists", r: "reservations", a: "audit", p: "passwords", logo: "logo" };
 
-/* ── Login ── */
-function LI(p){var _sel=us("michael"),sel=_sel[0],sS=_sel[1];var _pw=us(""),pw2=_pw[0],sP=_pw[1];var _er=us(""),err=_er[0],sE=_er[1];var _sh=us(false),sh=_sh[0],sSh=_sh[1];var t=p.t;
-function go(){var u=U.find(function(x){return x.id===sel});var correct=p.pw[sel]||u.pwd;if(pw2===correct){sE("");p.onL(u)}else{sE(t.wrong);sP("")}}
-return s("div",{style:{minHeight:"100vh",background:"linear-gradient(135deg,#0f172a,#1e293b,#0f3460)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:24}},
-s("div",{style:{marginBottom:32,textAlign:"center",display:"flex",flexDirection:"column",alignItems:"center"}},s(UL,{h:80,inv:true,ld:p.logo}),s("div",{style:{fontSize:10,color:"#64748b",letterSpacing:4,marginTop:10}},t.io)),
-s("div",{style:{background:"rgba(255,255,255,.06)",border:"1px solid rgba(255,255,255,.12)",borderRadius:16,padding:28,width:"100%",maxWidth:340}},
-s("div",{style:{marginBottom:16}},s("div",{style:{fontSize:11,fontWeight:600,color:"#94a3b8",marginBottom:6,letterSpacing:1}},t.user.toUpperCase()),s("select",{value:sel,onChange:function(ev){sS(ev.target.value);sP("");sE("")},style:{width:"100%",background:"#1e293b",border:"1px solid #334155",borderRadius:8,color:"#fff",padding:"10px 12px",fontSize:13,cursor:"pointer",boxSizing:"border-box"}},U.map(function(u){return s("option",{key:u.id,value:u.id},u.name+" - "+t[u.role])}))),
-s("div",{style:{marginBottom:16}},s("div",{style:{fontSize:11,fontWeight:600,color:"#94a3b8",marginBottom:6,letterSpacing:1}},t.pass.toUpperCase()),s("div",{style:{position:"relative"}},s("input",{type:sh?"text":"password",value:pw2,onChange:function(ev){sP(ev.target.value)},onKeyDown:function(ev){if(ev.key==="Enter")go()},style:{width:"100%",background:"#1e293b",border:"1px solid "+(err?"#dc2626":"#334155"),borderRadius:8,color:"#fff",padding:"10px 36px 10px 12px",fontSize:13,boxSizing:"border-box"},placeholder:"\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022"}),s("button",{onClick:function(){sSh(!sh)},style:{position:"absolute",right:8,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",color:"#64748b",cursor:"pointer",fontSize:14}},sh?"\uD83D\uDE48":"\uD83D\uDC41")),err?s("div",{style:{fontSize:11,color:"#f87171",marginTop:6}},err):null),
-s(Bt,{onClick:go,sx:{width:"100%",padding:12,fontSize:14,letterSpacing:1,borderRadius:10}},t.enter)),
-s("button",{onClick:function(){p.sL(function(l){return l==="en"?"es":"en"})},style:{marginTop:20,background:"transparent",border:"1px solid rgba(255,255,255,.2)",borderRadius:8,padding:"6px 18px",color:"#94a3b8",cursor:"pointer",fontSize:12}},t.la),
-s("div",{style:{marginTop:24,color:"#475569",fontSize:10}},"Desarrollado por ",s("a",{href:"https://www.armafaro.com/acerca-de",target:"_blank",rel:"noopener noreferrer",style:{color:"#7C3AED",fontWeight:600,textDecoration:"none"}},"Michael Llerena"),", ",s("a",{href:"https://www.armafaro.com/acerca-de",target:"_blank",rel:"noopener noreferrer",style:{color:"#7C3AED",fontWeight:600,textDecoration:"none"}},"www.armafaro.com")))}
+const LOGO = null; // loaded from storage
 
-/* ── Header ── */
-function HDD(p){var t=p.t,user=p.user,isF=p.isF,va=p.va;
-var tabs=[{id:"avail",l:t.tA}];
-if(!va&&(user.role==="founder"||ip(user.role)))tabs.push({id:"upload",l:t.tU});
-tabs.push({id:"res",l:t.tR});
-if(!va&&isF){tabs.push({id:"audit",l:t.tAu});tabs.push({id:"users",l:t.tUs})}
-return s("div",{style:{background:"#0f172a",color:"#fff"}},
-s("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"0 16px",height:52,flexWrap:"wrap",gap:6}},
-s("div",{style:{display:"flex",alignItems:"center",gap:12}},s(UL,{h:28,inv:true,ld:p.logo}),isF?s("div",{style:{display:"flex",alignItems:"center",gap:6}},s("select",{value:va||"",onChange:function(ev){p.sVa(ev.target.value||null)},style:{background:"#1e293b",border:"1px solid #334155",borderRadius:6,color:"#fff",padding:"3px 8px",fontSize:11,cursor:"pointer"}},s("option",{value:""},t.va+": Admin"),U.filter(function(u){return u.id!=="michael"}).map(function(u){return s("option",{key:u.id,value:u.id},u.name)})),va?s(Bt,{onClick:function(){p.sVa(null)},sx:{padding:"3px 9px",fontSize:10}},t.ep):null):null),
-s("div",{style:{display:"flex",alignItems:"center",gap:8}},s("span",{style:{fontSize:9,color:p.ss==="sc"?"#4ade80":p.ss==="sy"?"#fbbf24":"#f87171",fontWeight:600}},"\u25CF "+(t[p.ss]||"")),s("span",{style:{fontSize:11,color:"#94a3b8"}},user.name+" "+ri(user.role)),s("button",{onClick:function(){p.sL(function(l){return l==="en"?"es":"en"})},style:{background:"#1e293b",border:"1px solid #334155",borderRadius:5,padding:"3px 10px",color:"#94a3b8",cursor:"pointer",fontSize:11}},t.la),s("button",{onClick:p.onLo,style:{background:"transparent",border:"1px solid #334155",borderRadius:5,padding:"3px 10px",color:"#94a3b8",cursor:"pointer",fontSize:11}},t.lo))),
-s("div",{style:{display:"flex",paddingLeft:16,borderTop:"1px solid #1e293b",overflowX:"auto"}},tabs.map(function(tb){return s("button",{key:tb.id,onClick:function(){p.sT(tb.id)},style:{background:"transparent",border:"none",borderBottom:p.tab===tb.id?"2px solid #7C3AED":"2px solid transparent",color:p.tab===tb.id?"#fff":"#64748b",padding:"7px 14px",cursor:"pointer",fontSize:12,fontWeight:p.tab===tb.id?600:400,whiteSpace:"nowrap"}},tb.l)})))}
-
-/* ── NoData ── */
-function ND(p){return s("div",{style:{padding:40,textAlign:"center",color:"#9ca3af",fontSize:14}},p.msg)}
-
-/* ── App ── */
-function App(){
-var _u=us(null),user=_u[0],sU=_u[1];
-var _l=us("en"),lang=_l[0],sL=_l[1];
-var _li=us([]),lists=_li[0],sLi=_li[1];
-var _r=us([]),res=_r[0],sR=_r[1];
-var _a=us([]),audit=_a[0],sA=_a[1];
-var _p=us({}),pw=_p[0],sP=_p[1];
-var _lo=us(null),logo=_lo[0],sLo=_lo[1];
-var _ok=us(false),ok=_ok[0],sO=_ok[1];
-var _va=us(null),va=_va[0],sVa=_va[1];
-var _ta=us("avail"),tab=_ta[0],sT=_ta[1];
-var _udy=us("monday"),upDay=_udy[0],sUpDay=_udy[1];
-var _urw=us([er()]),upRows=_urw[0],sUpRows=_urw[1];
-var _ss=us("sy"),ss=_ss[0],sSs=_ss[1];
-var t=TT[lang];
-var sr=ur({});
-
-var dbS=uc(function(k,v){clearTimeout(sr.current[k]);sSs("sy");sr.current[k]=setTimeout(function(){ds(k,v).then(function(){sSs("sc")})},500)},[]);
-
-ue(function(){Promise.all([dg("lists"),dg("reservations"),dg("audit"),dg("passwords"),dg("logo")]).then(function(r){sLi(r[0]||[]);sR(r[1]||[]);sA(r[2]||[]);sP(r[3]||{});sLo(r[4]||null);sSs("sc");sO(true)}).catch(function(){sSs("of2");sO(true)})},[]);
-
-ue(function(){if(!ok)return;var iv=setInterval(function(){Promise.all([dg("lists"),dg("reservations")]).then(function(r){if(r[0])sLi(r[0]);if(r[1])sR(r[1]);sSs("sc")}).catch(function(){sSs("of2")})},15000);return function(){clearInterval(iv)}},[ok]);
-
-ue(function(){if(ok)dbS("lists",lists)},[lists,ok,dbS]);
-ue(function(){if(ok)dbS("reservations",res)},[res,ok,dbS]);
-ue(function(){if(ok)dbS("audit",audit)},[audit,ok,dbS]);
-ue(function(){if(ok)dbS("passwords",pw)},[pw,ok,dbS]);
-ue(function(){if(ok)dbS("logo",logo)},[logo,ok,dbS]);
-
-function log(a,d,w){sA(function(au){return[{id:uid(),who:w,act:a,det:d,at:new Date().toISOString()}].concat(au)})}
-function pub(rows,day){var li={id:uid(),who:user.name,at:new Date().toISOString(),day:day,rows:rows.map(function(r){return Object.assign({},r,{rem:Number(r.qty)})}),ms:null};sLi(function(l){return[li].concat(l)});log("PUBLISH",rows.length+" rows | "+day,user.name)}
-function rsv(lid,rid,qty,who){var li=lists.find(function(l){return l.id===lid});var row=li?li.rows.find(function(r){return r.id===rid}):null;if(row){var cc=encodeURIComponent(U.map(function(u){return u.em}).join(","));var su=encodeURIComponent("URKU DAILY - Reservation by "+who);var bo=encodeURIComponent("Sales: "+who+"\nQty: "+qty+"\nVariety: "+row.variety+"\nFarm: "+row.farm+"\n"+new Date().toLocaleString());window.open("mailto:sales@urkuexpressions.com?cc="+cc+"&subject="+su+"&body="+bo,"_blank")}
-var nr={id:uid(),lid:lid,rid:rid,qty:Number(qty),who:who,at:new Date().toISOString()};sR(function(rs){return[nr].concat(rs)});sLi(function(ls){return ls.map(function(l){if(l.id!==lid)return l;return Object.assign({},l,{rows:l.rows.map(function(r){if(r.id!==rid)return r;return Object.assign({},r,{rem:r.rem-Number(qty)})})})})});log("RESERVE",who+" "+qty+" box(es)",who)}
-function can(id){var r=res.find(function(x){return x.id===id});if(!r)return;sR(function(rs){return rs.filter(function(x){return x.id!==id})});sLi(function(ls){return ls.map(function(l){if(l.id!==r.lid)return l;return Object.assign({},l,{rows:l.rows.map(function(x){if(x.id!==r.rid)return x;return Object.assign({},x,{rem:x.rem+r.qty})})})})});log("CANCEL","Voided "+r.who,user.name)}
-function dlr(lid,rid){sLi(function(ls){return ls.map(function(l){if(l.id!==lid)return l;return Object.assign({},l,{rows:l.rows.filter(function(r){return r.id!==rid})})})});log("DEL","Row deleted",user.name)}
-function sst(lid,st){sLi(function(ls){return ls.map(function(l){return l.id!==lid?l:Object.assign({},l,{ms:st})})});log("STATUS","=> "+(st||"auto"),user.name)}
-function dll(lid){sLi(function(ls){return ls.filter(function(l){return l.id!==lid})});log("DEL_LIST","Deleted",user.name)}
-function up2(uid2,np){sP(function(p){var n={};for(var k in p)n[k]=p[k];n[uid2]=np;return n});log("PWD","Changed for "+uid2,user.name)}
-
-var isF=user&&user.role==="founder";
-var eff=va&&isF?U.find(function(u){return u.id===va}):user;
-
-if(!ok)return s("div",{style:{minHeight:"100vh",background:"#0f172a",display:"flex",alignItems:"center",justifyContent:"center",color:"#94a3b8"}},"Connecting to URKU Database...");
-if(!user)return s(LI,{onL:function(u){sU(u);sT("avail")},lang:lang,sL:sL,t:t,pw:pw,logo:logo});
-
-/* ── Avail Tab ── */
-function renderAvail(){
-var sorted=lists.slice().sort(function(a,b){var o={active:0,"at-risk":1,expired:2};var sa=gs(a),sb=gs(b);return o[sa]!==o[sb]?o[sa]-o[sb]:new Date(b.at)-new Date(a.at)});
-if(!sorted.length)return s(ND,{msg:t.nl});
-var cE=isF&&!va,cR=eff&&!ip(eff.role);
-return s("div",{style:{padding:16}},sorted.map(function(li){
-var st=gs(li),sc=SCC[st];
-var ths=[t.qty,t.box,t.vr,t.len,t.farm,t.st,t.pt,t.pc,t.ch,t.av,t.ac];
-return s("div",{key:li.id,style:{background:"#fff",borderRadius:12,border:"1px solid "+sc.bd,marginBottom:18,overflow:"hidden",boxShadow:"0 1px 4px rgba(0,0,0,.06)"}},
-s("div",{style:{background:sc.bg,padding:"10px 14px",display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:8}},
-s("div",{style:{display:"flex",alignItems:"center",gap:10,flexWrap:"wrap"}},
-s("span",{style:{background:sc.c,color:"#fff",borderRadius:5,padding:"2px 8px",fontSize:10,fontWeight:700}},st==="active"?t.act:st==="at-risk"?t.atr:t.exp),
-s("span",{style:{fontSize:12,fontWeight:700,color:"#1e293b"}},li.day==="monday"?t.mon:t.tue),
-s("span",{style:{fontSize:11,color:"#6b7280"}},t.by+" "+li.who+" "+t.at+" "+fmt(li.at))),
-cE?s("div",{style:{display:"flex",gap:6}},s("button",{onClick:function(){sst(li.id,st==="expired"?null:"expired")},style:{background:st==="expired"?"#dcfce7":"#fee2e2",border:"none",borderRadius:6,padding:"3px 9px",fontSize:11,cursor:"pointer",fontWeight:600,color:st==="expired"?"#166534":"#991b1b"}},st==="expired"?t.rs:t.ex),s("button",{onClick:function(){if(confirm(t.cdl))dll(li.id)},style:{background:"#fee2e2",border:"none",borderRadius:6,padding:"3px 9px",fontSize:11,cursor:"pointer",fontWeight:600,color:"#991b1b"}},t.dll)):null),
-s("div",{style:{overflowX:"auto"}},s("table",{style:{width:"100%",borderCollapse:"collapse",fontSize:12,minWidth:780}},
-s("thead",null,s("tr",{style:{background:"#f8fafc",borderBottom:"1px solid #e2e8f0"}},ths.map(function(h,i){return s("th",{key:i,style:{padding:"7px 9px",textAlign:"left",fontWeight:600,color:"#374151",fontSize:11}},h)}))),
-s("tbody",null,li.rows.map(function(row){
-var rr=res.filter(function(r){return r.rid===row.id});
-var out=row.rem<=0;
-return s("tr",{key:row.id,style:{borderBottom:"1px solid #f1f5f9",background:out?"#fafafa":"#fff",opacity:out?0.65:1}},
-s("td",{style:{padding:"7px 9px",fontWeight:700}},row.qty),
-s("td",{style:{padding:"7px 9px"}},s("span",{style:{background:"#eff6ff",color:"#1d4ed8",borderRadius:4,padding:"2px 6px",fontWeight:700,fontSize:11}},row.boxType)),
-s("td",{style:{padding:"7px 9px",fontWeight:600}},row.variety),
-s("td",{style:{padding:"7px 9px",color:"#6b7280"}},row.length),
-s("td",{style:{padding:"7px 9px",color:"#6b7280",fontSize:11}},row.farm),
-s("td",{style:{padding:"7px 9px"}},row.stems),
-s("td",{style:{padding:"7px 9px",color:"#059669",fontWeight:700}},"$"+row.pt),
-s("td",{style:{padding:"7px 9px",color:"#059669",fontWeight:700}},"$"+row.pc),
-s("td",{style:{padding:"7px 9px",fontSize:11,color:"#6b7280"}},row.ch),
-s("td",{style:{padding:"7px 9px"}},s("span",{style:{fontWeight:700,fontSize:13,color:row.rem>0?"#059669":"#dc2626"}},row.rem),s("span",{style:{color:"#9ca3af",fontSize:11}}," "+t.of+" "+row.qty)),
-s("td",{style:{padding:"7px 9px"}},s("div",{style:{display:"flex",flexDirection:"column",gap:4}},s("div",{style:{display:"flex",gap:4,flexWrap:"wrap"}},
-cR&&st!=="expired"&&!out?s(Bt,{onClick:function(){var q=prompt(t.qr,"1");if(q&&Number(q)>0&&Number(q)<=row.rem)rsv(li.id,row.id,Number(q),eff.name)},sx:{padding:"3px 9px",fontSize:11}},t.res):null,
-cE?s("button",{onClick:function(){if(confirm(t.cd))dlr(li.id,row.id)},style:{background:"#fee2e2",border:"none",borderRadius:5,color:"#991b1b",padding:"3px 7px",fontSize:11,cursor:"pointer"}},t.dl):null),
-rr.length>0?s("div",{style:{fontSize:10,color:"#7C3AED",fontWeight:600}},rr.map(function(r){return r.who+"("+r.qty+")"}).join(", ")):null)))}))))}))}
-
-/* ── Upload Tab ── */
-function renderUpload(){
-var dy=upDay,sD=sUpDay;
-var rows=upRows,sRw=sUpRows;
-function upd(id,f,v){sRw(function(rs){return rs.map(function(r){if(r.id!==id)return r;var n=Object.assign({},r);n[f]=v;return n})})}
-var ist={background:"#f8fafc",border:"1px solid #e2e8f0",borderRadius:5,padding:"5px 6px",fontSize:11,width:"100%",boxSizing:"border-box"};
-var ths=[t.qty,t.box,t.vr,t.len,t.farm,t.st,t.pt,t.pc,t.ch,""];
-return s("div",{style:{padding:20}},
-s("div",{style:{display:"flex",alignItems:"center",gap:14,marginBottom:14,flexWrap:"wrap"}},
-s("div",{style:{display:"flex",alignItems:"center",gap:8}},s("span",{style:{fontSize:13,fontWeight:600,color:"#374151"}},t.dt+":"),s("select",{value:dy,onChange:function(ev){sD(ev.target.value)},style:{border:"1px solid #d1d5db",borderRadius:8,padding:"6px 10px",fontSize:13,cursor:"pointer"}},s("option",{value:"monday"},t.mon),s("option",{value:"tuesday"},t.tue))),
-s("span",{style:{fontSize:11,color:"#6b7280",fontStyle:"italic"}},dy==="monday"?t.mn:t.tn)),
-s("div",{style:{overflowX:"auto"}},s("table",{style:{borderCollapse:"collapse",fontSize:12,minWidth:860}},
-s("thead",null,s("tr",{style:{background:"#f1f5f9"}},ths.map(function(h,i){return s("th",{key:i,style:{padding:"7px 6px",textAlign:"left",fontWeight:600,color:"#374151",fontSize:11}},h)}))),
-s("tbody",null,rows.map(function(row){return s("tr",{key:row.id,style:{borderBottom:"1px solid #f1f5f9"}},
-s("td",{style:{padding:3}},s("input",{type:"number",value:row.qty,onChange:function(ev){upd(row.id,"qty",ev.target.value)},style:Object.assign({},ist,{width:55}),placeholder:"2"})),
-s("td",{style:{padding:3}},s("select",{value:row.boxType,onChange:function(ev){upd(row.id,"boxType",ev.target.value)},style:Object.assign({},ist,{width:65})},BT.map(function(b){return s("option",{key:b},b)}))),
-s("td",{style:{padding:3}},s("input",{value:row.variety,onChange:function(ev){upd(row.id,"variety",ev.target.value)},style:Object.assign({},ist,{width:130}),placeholder:"ROSE ALBA"})),
-s("td",{style:{padding:3}},s("input",{type:"number",value:row.length,onChange:function(ev){upd(row.id,"length",ev.target.value)},style:Object.assign({},ist,{width:55}),placeholder:"50"})),
-s("td",{style:{padding:3}},s("input",{value:row.farm,onChange:function(ev){upd(row.id,"farm",ev.target.value)},style:Object.assign({},ist,{width:120}),placeholder:"GRUPO PACIFIC"})),
-s("td",{style:{padding:3}},s("input",{type:"number",value:row.stems,onChange:function(ev){upd(row.id,"stems",ev.target.value)},style:Object.assign({},ist,{width:60}),placeholder:"400"})),
-s("td",{style:{padding:3}},s("input",{type:"number",step:"0.01",value:row.pt,onChange:function(ev){upd(row.id,"pt",ev.target.value)},style:Object.assign({},ist,{width:65}),placeholder:"0.40"})),
-s("td",{style:{padding:3}},s("input",{type:"number",step:"0.01",value:row.pc,onChange:function(ev){upd(row.id,"pc",ev.target.value)},style:Object.assign({},ist,{width:65}),placeholder:"0.43"})),
-s("td",{style:{padding:3}},s("select",{value:row.ch,onChange:function(ev){upd(row.id,"ch",ev.target.value)},style:Object.assign({},ist,{width:110})},CH.map(function(c){return s("option",{key:c},c)}))),
-s("td",{style:{padding:3}},s("button",{onClick:function(){sRw(function(rs){return rs.filter(function(r){return r.id!==row.id})})},style:{background:"#fee2e2",border:"none",borderRadius:4,color:"#991b1b",cursor:"pointer",padding:"4px 8px",fontSize:11}},"\u2715")))})))),
-s("div",{style:{display:"flex",gap:10,marginTop:14,flexWrap:"wrap"}},
-s("button",{onClick:function(){sRw(function(rs){return rs.concat([er()])})},style:{background:"#eff6ff",border:"1px solid #bfdbfe",borderRadius:8,color:"#1d4ed8",cursor:"pointer",padding:"8px 14px",fontSize:13,fontWeight:600}},t.ar),
-s("button",{onClick:function(){var v=rows.filter(function(r){return r.qty&&r.variety});if(!v.length)return;pub(v,dy);sRw([er()])},style:{background:"#0f172a",border:"none",borderRadius:8,color:"#fff",cursor:"pointer",padding:"8px 18px",fontSize:13,fontWeight:700}},t.pub),
-s("button",{onClick:function(){sRw([er()])},style:{background:"#f1f5f9",border:"1px solid #e2e8f0",borderRadius:8,color:"#6b7280",cursor:"pointer",padding:"8px 14px",fontSize:13}},t.cl)))}
-
-/* ── Reservations Tab ── */
-function renderRes(){
-var all=(isF&&!va)||ip(eff.role);var cV=(isF&&!va)||eff.role==="procurement";
-var sh=all?res:res.filter(function(r){return r.who===eff.name});
-if(!sh.length)return s(ND,{msg:t.nr});
-return s("div",{style:{padding:16}},s("div",{style:{background:"#fff",borderRadius:12,border:"1px solid #e2e8f0",overflow:"hidden"}},
-s("table",{style:{width:"100%",borderCollapse:"collapse",fontSize:12}},
-s("thead",null,s("tr",{style:{background:"#f8fafc",borderBottom:"1px solid #e2e8f0"}},[t.un,t.vr,t.qty,t.farm,t.ti].concat(cV?[t.ac]:[]).map(function(h,i){return s("th",{key:i,style:{padding:"9px 12px",textAlign:"left",fontWeight:600,color:"#374151",fontSize:11}},h)}))),
-s("tbody",null,sh.map(function(r){
-var li=lists.find(function(x){return x.id===r.lid});
-var row=li?li.rows.find(function(x){return x.id===r.rid}):null;
-return s("tr",{key:r.id,style:{borderBottom:"1px solid #f8fafc"}},
-s("td",{style:{padding:"9px 12px"}},s("span",{style:{background:"#ede9fe",color:"#7C3AED",borderRadius:4,padding:"2px 7px",fontWeight:700,fontSize:11}},r.who)),
-s("td",{style:{padding:"9px 12px",fontWeight:600}},row?row.variety+" "+row.length+"cm ("+row.boxType+")":"-"),
-s("td",{style:{padding:"9px 12px",fontWeight:700,fontSize:14}},r.qty),
-s("td",{style:{padding:"9px 12px",color:"#6b7280",fontSize:11}},row?row.farm:"-"),
-s("td",{style:{padding:"9px 12px",color:"#6b7280",fontSize:11}},fmt(r.at)),
-cV?s("td",{style:{padding:"9px 12px"}},s("button",{onClick:function(){if(confirm(t.cv))can(r.id)},style:{background:"#fee2e2",border:"none",borderRadius:5,color:"#991b1b",padding:"3px 9px",fontSize:11,cursor:"pointer",fontWeight:600}},t.vo)):null)})))))
+function UrkuLogo({ h = 50, invert = false, logoData }) {
+  return logoData ? (
+    <img src={logoData} alt="URKU"
+      style={{ height:h, width:"auto", objectFit:"contain", display:"block", filter: invert ? "invert(1) brightness(2)" : "none" }} />
+  ) : (
+    <span style={{ fontWeight:900, letterSpacing:5, fontSize: h * 0.45, fontFamily:"Georgia,serif", color: invert ? "#fff" : "#1a1a1a" }}>URKU</span>
+  );
 }
 
-/* ── Audit Tab ── */
-function renderAudit(){
-if(!audit.length)return s(ND,{msg:t.na});
-return s("div",{style:{padding:16}},s("div",{style:{background:"#fff",borderRadius:12,border:"1px solid #e2e8f0",overflow:"hidden"}},
-s("table",{style:{width:"100%",borderCollapse:"collapse",fontSize:12}},
-s("thead",null,s("tr",{style:{background:"#f8fafc",borderBottom:"1px solid #e2e8f0"}},[t.ti,t.un,t.an,t.de].map(function(h,i){return s("th",{key:i,style:{padding:"9px 12px",textAlign:"left",fontWeight:600,color:"#374151",fontSize:11}},h)}))),
-s("tbody",null,audit.map(function(en){var ac=en.act.includes("PUB")?"#059669":en.act.includes("RES")?"#7C3AED":"#dc2626";return s("tr",{key:en.id,style:{borderBottom:"1px solid #f8fafc"}},
-s("td",{style:{padding:"8px 12px",color:"#6b7280",fontSize:11}},fmt(en.at)),
-s("td",{style:{padding:"8px 12px",fontWeight:700}},en.who),
-s("td",{style:{padding:"8px 12px"}},s("span",{style:{background:ac+"18",color:ac,borderRadius:4,padding:"2px 8px",fontSize:10,fontWeight:700}},en.act)),
-s("td",{style:{padding:"8px 12px",color:"#374151"}},en.det))})))))
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+const fmt = (d) => new Date(d).toLocaleString();
+const emptyRow = () => ({ id: uid(), qty:"", boxType:"HB", variety:"", length:"", farm:"", stems:"", pt:"", pc:"", ch:"FARM DIRECT" });
+
+const roleIcon = (r) => r === "founder" ? "👑" : r === "procurement" ? "📦" : r === "ops_manager" ? "⚙️" : "💼";
+const isProcLike = (r) => r === "procurement" || r === "ops_manager";
+
+async function sGet(k) {
+  try {
+    const r = await fetch(`${SB_URL}/rest/v1/app_data?key=eq.${encodeURIComponent(k)}&select=value`, { headers: SB_HEADERS });
+    if (!r.ok) throw new Error("Supabase read failed");
+    const data = await r.json();
+    return data && data[0] && data[0].value !== undefined ? data[0].value : null;
+  } catch (err) {
+    console.error("sGet", k, err);
+    return null;
+  }
+}
+async function sSet(k, v) {
+  try {
+    const r = await fetch(`${SB_URL}/rest/v1/app_data?key=eq.${encodeURIComponent(k)}`, {
+      method: "PATCH",
+      headers: { ...SB_HEADERS, Prefer: "return=minimal" },
+      body: JSON.stringify({ value: v, updated_at: new Date().toISOString() })
+    });
+    if (!r.ok) {
+      await fetch(`${SB_URL}/rest/v1/app_data`, {
+        method: "POST",
+        headers: { ...SB_HEADERS, Prefer: "return=minimal" },
+        body: JSON.stringify({ key: k, value: v, updated_at: new Date().toISOString() })
+      });
+    }
+  } catch (err) {
+    console.error("sSet", k, err);
+  }
 }
 
-/* ── Users Tab ── */
-function renderUsers(){
-return s("div",{style:{padding:20}},
-s("div",{style:{background:"#fff",border:"1px solid #e2e8f0",borderRadius:12,padding:20,marginBottom:24,maxWidth:520}},
-s("div",{style:{fontWeight:700,fontSize:14,color:"#1e293b",marginBottom:8}},"\uD83C\uDFA8 Company Logo"),
-s("div",{style:{fontSize:12,color:"#6b7280",marginBottom:14}},"Upload logo (PNG/JPG)."),
-s("div",{style:{display:"flex",alignItems:"center",gap:12,flexWrap:"wrap"}},
-logo?s("img",{src:logo,alt:"Logo",style:{height:40,width:"auto",border:"1px solid #e2e8f0",borderRadius:6,padding:4}}):null,
-s("label",{style:{background:"#7C3AED",color:"#fff",borderRadius:8,padding:"8px 16px",fontSize:12,fontWeight:600,cursor:"pointer"}},logo?"Change":"Upload",s("input",{type:"file",accept:"image/*",onChange:function(ev){var f=ev.target.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){sLo(rd.result)};rd.readAsDataURL(f)},style:{display:"none"}})),
-logo?s("button",{onClick:function(){sLo(null)},style:{background:"#fee2e2",border:"none",borderRadius:8,color:"#991b1b",padding:"8px 14px",fontSize:12,cursor:"pointer",fontWeight:600}},"Remove"):null)),
-s("div",{style:{fontWeight:700,fontSize:16,marginBottom:4,color:"#1e293b"}},t.ut),
-s("div",{style:{fontSize:12,color:"#6b7280",marginBottom:20}},"Only Michael can change passwords."),
-s("div",{style:{display:"flex",flexDirection:"column",gap:10,maxWidth:520}},U.map(function(u){
-return s("div",{key:u.id,style:{background:"#fff",border:"1px solid #e2e8f0",borderRadius:12,padding:"14px 16px",display:"flex",alignItems:"center",gap:12,flexWrap:"wrap"}},
-s("div",{style:{width:36,height:36,borderRadius:"50%",background:"#ede9fe",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18}},ri(u.role)),
-s("div",{style:{minWidth:90}},s("div",{style:{fontWeight:700,fontSize:13}},u.name),s("div",{style:{fontSize:11,color:"#6b7280"}},t[u.role])),
-s("div",{style:{display:"flex",gap:6,alignItems:"center"}},
-s("button",{onClick:function(){var np=prompt("New password for "+u.name+":");if(np)up2(u.id,np)},style:{background:"#7C3AED",border:"none",borderRadius:7,color:"#fff",padding:"7px 12px",fontSize:12,cursor:"pointer",fontWeight:600}},t.up),
-s("button",{onClick:function(){up2(u.id,u.pwd)},style:{background:"#f1f5f9",border:"none",borderRadius:7,color:"#374151",padding:"7px 10px",fontSize:11,cursor:"pointer"}},t.rd)))})))}
+/* ══════════════════════════════════════════════════════════════════════════
+   TRANSLATIONS
+   ══════════════════════════════════════════════════════════════════════════ */
 
-return s("div",{style:{minHeight:"100vh",background:"#f8fafc"}},
-s(HDD,{user:user,isF:isF,va:va,sVa:function(id){sVa(id||null);sT("avail")},sL:sL,t:t,onLo:function(){sU(null);sVa(null);sT("avail")},tab:tab,sT:sT,logo:logo,ss:ss}),
-va?s("div",{style:{background:"#fef9c3",borderBottom:"1px solid #fde047",padding:"5px 16px",fontSize:11,color:"#854d0e",fontWeight:600}},t.pa+": "+U.find(function(u){return u.id===va}).name+" - "+t.adn):null,
-s("div",{style:{maxWidth:1400,margin:"0 auto"}},
-tab==="upload"&&!va&&(user.role==="founder"||ip(user.role))?renderUpload():null,
-tab==="avail"?renderAvail():null,
-tab==="res"?renderRes():null,
-tab==="audit"&&isF&&!va?renderAudit():null,
-tab==="users"&&isF&&!va?renderUsers():null,
-s(Ft,null)))}
+const T = {
+  en: {
+    enter:"Enter", user:"Username", pass:"Password", wrong:"Incorrect password. Try again.",
+    founder:"Founder & CEO", procurement:"Procurement", sales:"Sales", ops_manager:"Ops Manager",
+    tAvail:"Availability", tUpload:"Upload List", tRes:"Reservations", tAudit:"Audit Log", tUsers:"Users",
+    viewAs:"View As", exitPrev:"Exit Preview", logout:"Logout", lang:"ES",
+    dayType:"List Day", mon:"Monday", tue:"Tuesday", addRow:"+ Add Row",
+    publish:"Publish List", clear:"Clear", by:"By", at:"at",
+    qty:"QTY", box:"Box", variety:"Variety", len:"Len(cm)", farm:"Farm",
+    stems:"Stems", pt:"$/Transfer", pc:"$/Card", ch:"Channel", avail:"Avail", actions:"Actions",
+    active:"ACTIVE", atRisk:"AT RISK", expired:"EXPIRED",
+    monNote:"Mon/Tue until 12:30 PM or boxes go to destruction",
+    tueNote:"Ships: Wed / Thu / Fri",
+    reserve:"Reserve", qtyRes:"Boxes to reserve:", confirm:"Confirm", cancel:"Cancel",
+    noRes:"No reservations yet.", void:"Void",
+    time:"Time", uName:"User", action:"Action", detail:"Detail", noAudit:"No activity yet.",
+    edit:"Edit", del:"Del", delList:"Delete List", expire:"Expire", restore:"Restore",
+    save:"Save", noLists:"No availability lists published yet.",
+    prevAs:"Previewing as", adminNote:"Michael retains full admin control",
+    of:"of", cDel:"Delete this row?", cDelList:"Delete this entire list?", cVoid:"Void this reservation?",
+    usersTitle:"User Management", newPwd:"New Password", update:"Update", pwdOk:"Password updated.",
+    reset:"Reset Default", intOps:"INTERNAL OPERATIONS SYSTEM",
+  },
+  es: {
+    enter:"Entrar", user:"Usuario", pass:"Contraseña", wrong:"Contraseña incorrecta. Intenta de nuevo.",
+    founder:"Fundador y CEO", procurement:"Compras", sales:"Ventas", ops_manager:"Gerente de Ops",
+    tAvail:"Disponibilidad", tUpload:"Subir Lista", tRes:"Reservas", tAudit:"Auditoría", tUsers:"Usuarios",
+    viewAs:"Ver como", exitPrev:"Salir Vista", logout:"Salir", lang:"EN",
+    dayType:"Día de Lista", mon:"Lunes", tue:"Martes", addRow:"+ Agregar Fila",
+    publish:"Publicar Lista", clear:"Limpiar", by:"Por", at:"el",
+    qty:"CANT", box:"Caja", variety:"Variedad", len:"Largo(cm)", farm:"Finca",
+    stems:"Tallos", pt:"$/Transf", pc:"$/Tarj", ch:"Canal", avail:"Disp", actions:"Acciones",
+    active:"ACTIVO", atRisk:"EN RIESGO", expired:"EXPIRADO",
+    monNote:"Lun/Mar hasta 12:30 PM o cajas van a destrucción",
+    tueNote:"Sale: Mié / Jue / Vie",
+    reserve:"Reservar", qtyRes:"Cajas a reservar:", confirm:"Confirmar", cancel:"Cancelar",
+    noRes:"Sin reservas aún.", void:"Anular",
+    time:"Hora", uName:"Usuario", action:"Acción", detail:"Detalle", noAudit:"Sin actividad.",
+    edit:"Editar", del:"Elim", delList:"Eliminar Lista", expire:"Expirar", restore:"Restaurar",
+    save:"Guardar", noLists:"No hay listas publicadas aún.",
+    prevAs:"Vista previa como", adminNote:"Michael mantiene control total",
+    of:"de", cDel:"¿Eliminar esta fila?", cDelList:"¿Eliminar esta lista completa?", cVoid:"¿Anular esta reserva?",
+    usersTitle:"Gestión de Usuarios", newPwd:"Nueva Contraseña", update:"Actualizar", pwdOk:"Contraseña actualizada.",
+    reset:"Restablecer", intOps:"SISTEMA INTERNO DE OPERACIONES",
+  }
+};
 
-ReactDOM.render(e(App,null),document.getElementById("root"));
-})();
+/* ══════════════════════════════════════════════════════════════════════════
+   STATUS LOGIC
+   ══════════════════════════════════════════════════════════════════════════ */
+
+const SC = {
+  active:    { bg:"#dcfce7", c:"#166534", bd:"#86efac" },
+  "at-risk": { bg:"#fef9c3", c:"#854d0e", bd:"#fde047" },
+  expired:   { bg:"#fee2e2", c:"#991b1b", bd:"#fca5a5" },
+};
+
+function getStatus(list) {
+  if (list.ms) return list.ms;
+  const now = new Date(), up = new Date(list.at);
+  if (list.day === "monday") {
+    const d1 = new Date(up); d1.setHours(12, 30, 0, 0);
+    const d2 = new Date(d1); d2.setDate(d1.getDate() + 1);
+    return now <= d1 ? "active" : now <= d2 ? "at-risk" : "expired";
+  }
+  const fri = new Date(up), dof = up.getDay();
+  fri.setDate(up.getDate() + (dof <= 5 ? 5 - dof : 5 + 7 - dof));
+  fri.setHours(23, 59, 59, 0);
+  return now <= fri ? "active" : "expired";
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   MODAL COMPONENTS
+   ══════════════════════════════════════════════════════════════════════════ */
+
+const Overlay = ({ children }) => (
+  <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.55)", display:"flex", alignItems:"center", justifyContent:"center", zIndex:999 }}>
+    {children}
+  </div>
+);
+const MBox = ({ children, w = 300 }) => (
+  <div style={{ background:"#fff", borderRadius:16, padding:24, width:w, boxShadow:"0 20px 60px rgba(0,0,0,0.3)", maxHeight:"85vh", overflowY:"auto" }}>
+    {children}
+  </div>
+);
+const Btn = ({ children, bg = "#7C3AED", color = "#fff", onClick, style = {} }) => (
+  <button onClick={onClick} style={{ background:bg, border:"none", borderRadius:8, color, padding:10, cursor:"pointer", fontWeight:600, fontSize:12, ...style }}>
+    {children}
+  </button>
+);
+
+function ConfirmModal({ msg, onYes, onNo }) {
+  return <Overlay><MBox w={280}>
+    <div style={{ fontSize:14, fontWeight:600, marginBottom:18, color:"#1e293b" }}>{msg}</div>
+    <div style={{ display:"flex", gap:8 }}>
+      <Btn bg="#f1f5f9" color="#374151" onClick={onNo} style={{ flex:1 }}>No</Btn>
+      <Btn bg="#dc2626" onClick={onYes} style={{ flex:1 }}>Yes</Btn>
+    </div>
+  </MBox></Overlay>;
+}
+
+function ReserveModal({ row, onConfirm, onClose, t }) {
+  const [q, setQ] = useState(1);
+  return <Overlay><MBox>
+    <div style={{ fontWeight:700, fontSize:15, marginBottom:6 }}>{t.reserve}</div>
+    <div style={{ fontSize:12, color:"#6b7280", marginBottom:12 }}>{row.boxType} — {row.variety} {row.length}cm | {row.farm}</div>
+    <div style={{ background:"#f8fafc", borderRadius:8, padding:10, fontSize:12, marginBottom:14 }}>
+      {row.rem} available | ${row.pt} xfer / ${row.pc} card
+    </div>
+    <div style={{ fontSize:12, fontWeight:600, marginBottom:6 }}>{t.qtyRes}</div>
+    <input type="number" min={1} max={row.rem} value={q}
+      onChange={e => setQ(Math.min(row.rem, Math.max(1, Number(e.target.value))))}
+      style={{ border:"2px solid #7C3AED", borderRadius:8, padding:10, width:"100%", boxSizing:"border-box", textAlign:"center", fontSize:20, fontWeight:700 }} />
+    <div style={{ display:"flex", gap:8, marginTop:14 }}>
+      <Btn bg="#f1f5f9" color="#374151" onClick={onClose} style={{ flex:1 }}>{t.cancel}</Btn>
+      <Btn onClick={() => { onConfirm(q); onClose(); }} style={{ flex:1 }}>{t.confirm}</Btn>
+    </div>
+  </MBox></Overlay>;
+}
+
+function EditModal({ row, onSave, onClose, t }) {
+  const [d, setD] = useState({ ...row });
+  const inp = { border:"1px solid #d1d5db", borderRadius:6, padding:"5px 8px", fontSize:12, width:"100%", boxSizing:"border-box" };
+  const fields = [["qty","number",t.qty],["boxType","text",t.box],["variety","text",t.variety],["length","number",t.len],
+    ["farm","text",t.farm],["stems","number",t.stems],["pt","number",t.pt],["pc","number",t.pc],["ch","text",t.ch]];
+  return <Overlay><MBox w={360}>
+    <div style={{ fontWeight:700, fontSize:15, marginBottom:14 }}>Edit Row</div>
+    {fields.map(([f, type, label]) => (
+      <div key={f} style={{ marginBottom:10 }}>
+        <div style={{ fontSize:11, fontWeight:600, color:"#374151", marginBottom:2 }}>{label}</div>
+        <input type={type} value={d[f]} onChange={e => setD(p => ({ ...p, [f]: e.target.value }))} style={inp} />
+      </div>
+    ))}
+    <div style={{ display:"flex", gap:8, marginTop:14 }}>
+      <Btn bg="#f1f5f9" color="#374151" onClick={onClose} style={{ flex:1 }}>{t.cancel}</Btn>
+      <Btn onClick={() => { onSave(d); onClose(); }} style={{ flex:1 }}>{t.save}</Btn>
+    </div>
+  </MBox></Overlay>;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   FOOTER
+   ══════════════════════════════════════════════════════════════════════════ */
+
+function Footer() {
+  return (
+    <div style={{ textAlign:"center", padding:"20px 16px 16px", borderTop:"1px solid #e2e8f0", marginTop:28, color:"#9ca3af", fontSize:11, letterSpacing:0.5 }}>
+      Desarrollado por <a href="https://www.armafaro.com/acerca-de" target="_blank" rel="noopener noreferrer" style={{ color:"#7C3AED", fontWeight:700, textDecoration:"none" }}>Michael Llerena</a>, <a href="https://www.armafaro.com/acerca-de" target="_blank" rel="noopener noreferrer" style={{ color:"#7C3AED", fontWeight:600, textDecoration:"none" }}>www.armafaro.com</a>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   LOGIN
+   ══════════════════════════════════════════════════════════════════════════ */
+
+function Login({ onLogin, lang, setLang, t, pwds, logo }) {
+  const [sel, setSel] = useState("michael");
+  const [pw, setPw]   = useState("");
+  const [err, setErr] = useState("");
+  const [show, setShow] = useState(false);
+
+  const go = () => {
+    const u = USERS.find(x => x.id === sel);
+    const correct = pwds[sel] || u.pwd;
+    if (pw === correct) { setErr(""); onLogin(u); }
+    else { setErr(t.wrong); setPw(""); }
+  };
+
+  return (
+    <div style={{ minHeight:"100vh", background:"linear-gradient(135deg,#0f172a,#1e293b,#0f3460)", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:24 }}>
+      <div style={{ marginBottom:32, textAlign:"center", display:"flex", flexDirection:"column", alignItems:"center" }}>
+        <UrkuLogo h={80} invert={true} logoData={logo} />
+        <div style={{ fontSize:10, color:"#64748b", letterSpacing:4, marginTop:10 }}>{t.intOps}</div>
+      </div>
+      <div style={{ background:"rgba(255,255,255,0.06)", border:"1px solid rgba(255,255,255,0.12)", borderRadius:16, padding:28, width:"100%", maxWidth:340 }}>
+        <div style={{ marginBottom:16 }}>
+          <div style={{ fontSize:11, fontWeight:600, color:"#94a3b8", marginBottom:6, letterSpacing:1 }}>{t.user.toUpperCase()}</div>
+          <select value={sel} onChange={e => { setSel(e.target.value); setPw(""); setErr(""); }}
+            style={{ width:"100%", background:"#1e293b", border:"1px solid #334155", borderRadius:8, color:"#fff", padding:"10px 12px", fontSize:13, cursor:"pointer", boxSizing:"border-box" }}>
+            {USERS.map(u => <option key={u.id} value={u.id}>{u.name} — {t[u.role]}</option>)}
+          </select>
+        </div>
+        <div style={{ marginBottom:16 }}>
+          <div style={{ fontSize:11, fontWeight:600, color:"#94a3b8", marginBottom:6, letterSpacing:1 }}>{t.pass.toUpperCase()}</div>
+          <div style={{ position:"relative" }}>
+            <input type={show ? "text" : "password"} value={pw} onChange={e => setPw(e.target.value)} onKeyDown={e => e.key === "Enter" && go()}
+              style={{ width:"100%", background:"#1e293b", border:`1px solid ${err ? "#dc2626" : "#334155"}`, borderRadius:8, color:"#fff", padding:"10px 36px 10px 12px", fontSize:13, boxSizing:"border-box" }}
+              placeholder="••••••••" />
+            <button onClick={() => setShow(s => !s)} style={{ position:"absolute", right:8, top:"50%", transform:"translateY(-50%)", background:"none", border:"none", color:"#64748b", cursor:"pointer", fontSize:14 }}>
+              {show ? "🙈" : "👁"}
+            </button>
+          </div>
+          {err && <div style={{ fontSize:11, color:"#f87171", marginTop:6 }}>{err}</div>}
+        </div>
+        <Btn onClick={go} style={{ width:"100%", padding:12, fontSize:14, letterSpacing:1, borderRadius:10 }}>{t.enter}</Btn>
+      </div>
+      <button onClick={() => setLang(l => l === "en" ? "es" : "en")}
+        style={{ marginTop:20, background:"transparent", border:"1px solid rgba(255,255,255,0.2)", borderRadius:8, padding:"6px 18px", color:"#94a3b8", cursor:"pointer", fontSize:12 }}>
+        {t.lang}
+      </button>
+      <div style={{ marginTop:24, color:"#475569", fontSize:10, letterSpacing:0.5 }}>
+        Desarrollado por <a href="https://www.armafaro.com/acerca-de" target="_blank" rel="noopener noreferrer" style={{ color:"#7C3AED", fontWeight:600, textDecoration:"none" }}>Michael Llerena</a>, <a href="https://www.armafaro.com/acerca-de" target="_blank" rel="noopener noreferrer" style={{ color:"#7C3AED", fontWeight:600, textDecoration:"none" }}>www.armafaro.com</a>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   HEADER
+   ══════════════════════════════════════════════════════════════════════════ */
+
+function Header({ user, isF, va, setVa, setLang, t, onLogout, tab, setTab, logo }) {
+  const tabs = [
+    { id:"avail", l: t.tAvail },
+    ...(!va && (user.role === "founder" || isProcLike(user.role)) ? [{ id:"upload", l: t.tUpload }] : []),
+    { id:"res", l: t.tRes },
+    ...(!va && isF ? [{ id:"audit", l: t.tAudit }, { id:"users", l: t.tUsers }] : []),
+  ];
+  return (
+    <div style={{ background:"#0f172a", color:"#fff" }}>
+      <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding:"0 16px", height:52, flexWrap:"wrap", gap:6 }}>
+        <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+          <UrkuLogo h={28} invert={true} logoData={logo} />
+          {isF && (
+            <div style={{ display:"flex", alignItems:"center", gap:6 }}>
+              <select value={va || ""} onChange={e => setVa(e.target.value || null)}
+                style={{ background:"#1e293b", border:"1px solid #334155", borderRadius:6, color:"#fff", padding:"3px 8px", fontSize:11, cursor:"pointer" }}>
+                <option value="">{t.viewAs}: Admin</option>
+                {USERS.filter(u => u.id !== "michael").map(u => <option key={u.id} value={u.id}>{u.name} ({t[u.role]})</option>)}
+              </select>
+              {va && <Btn onClick={() => setVa(null)} style={{ padding:"3px 9px", fontSize:10 }}>{t.exitPrev}</Btn>}
+            </div>
+          )}
+        </div>
+        <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+          <span style={{ fontSize:11, color:"#94a3b8" }}>{user.name} {roleIcon(user.role)}</span>
+          <button onClick={() => setLang(l => l === "en" ? "es" : "en")} style={{ background:"#1e293b", border:"1px solid #334155", borderRadius:5, padding:"3px 10px", color:"#94a3b8", cursor:"pointer", fontSize:11 }}>{t.lang}</button>
+          <button onClick={onLogout} style={{ background:"transparent", border:"1px solid #334155", borderRadius:5, padding:"3px 10px", color:"#94a3b8", cursor:"pointer", fontSize:11 }}>{t.logout}</button>
+        </div>
+      </div>
+      <div style={{ display:"flex", paddingLeft:16, borderTop:"1px solid #1e293b", overflowX:"auto" }}>
+        {tabs.map(tb => (
+          <button key={tb.id} onClick={() => setTab(tb.id)}
+            style={{ background:"transparent", border:"none", borderBottom: tab === tb.id ? "2px solid #7C3AED" : "2px solid transparent", color: tab === tb.id ? "#fff" : "#64748b", padding:"7px 14px", cursor:"pointer", fontSize:12, fontWeight: tab === tb.id ? 600 : 400, whiteSpace:"nowrap" }}>
+            {tb.l}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   UPLOAD FORM
+   ══════════════════════════════════════════════════════════════════════════ */
+
+function UploadForm({ onPub, t }) {
+  const [day, setDay] = useState("monday");
+  const [rows, setRows] = useState([emptyRow()]);
+  const upd = (id, f, v) => setRows(rs => rs.map(r => r.id === id ? { ...r, [f]: v } : r));
+  const inp = { background:"#f8fafc", border:"1px solid #e2e8f0", borderRadius:5, padding:"5px 6px", fontSize:11, width:"100%", boxSizing:"border-box" };
+
+  return (
+    <div style={{ padding:20 }}>
+      <div style={{ display:"flex", alignItems:"center", gap:14, marginBottom:14, flexWrap:"wrap" }}>
+        <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+          <span style={{ fontSize:13, fontWeight:600, color:"#374151" }}>{t.dayType}:</span>
+          <select value={day} onChange={e => setDay(e.target.value)} style={{ border:"1px solid #d1d5db", borderRadius:8, padding:"6px 10px", fontSize:13, cursor:"pointer" }}>
+            <option value="monday">{t.mon}</option>
+            <option value="tuesday">{t.tue}</option>
+          </select>
+        </div>
+        <span style={{ fontSize:11, color:"#6b7280", fontStyle:"italic" }}>
+          {day === "monday" ? `⚠ ${t.monNote}` : `🚚 ${t.tueNote}`}
+        </span>
+      </div>
+      <div style={{ overflowX:"auto" }}>
+        <table style={{ borderCollapse:"collapse", fontSize:12, minWidth:860 }}>
+          <thead>
+            <tr style={{ background:"#f1f5f9" }}>
+              {[t.qty, t.box, t.variety, t.len, t.farm, t.stems, t.pt, t.pc, t.ch, ""].map((h, i) => (
+                <th key={i} style={{ padding:"7px 6px", textAlign:"left", fontWeight:600, color:"#374151", whiteSpace:"nowrap", fontSize:11 }}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map(row => (
+              <tr key={row.id} style={{ borderBottom:"1px solid #f1f5f9" }}>
+                <td style={{ padding:3 }}><input type="number" value={row.qty} onChange={e => upd(row.id,"qty",e.target.value)} style={{ ...inp, width:55 }} placeholder="2"/></td>
+                <td style={{ padding:3 }}><select value={row.boxType} onChange={e => upd(row.id,"boxType",e.target.value)} style={{ ...inp, width:65 }}>{BOX_TYPES.map(b => <option key={b}>{b}</option>)}</select></td>
+                <td style={{ padding:3 }}><input value={row.variety} onChange={e => upd(row.id,"variety",e.target.value)} style={{ ...inp, width:130 }} placeholder="ROSE ALBA"/></td>
+                <td style={{ padding:3 }}><input type="number" value={row.length} onChange={e => upd(row.id,"length",e.target.value)} style={{ ...inp, width:55 }} placeholder="50"/></td>
+                <td style={{ padding:3 }}><input value={row.farm} onChange={e => upd(row.id,"farm",e.target.value)} style={{ ...inp, width:120 }} placeholder="GRUPO PACIFIC"/></td>
+                <td style={{ padding:3 }}><input type="number" value={row.stems} onChange={e => upd(row.id,"stems",e.target.value)} style={{ ...inp, width:60 }} placeholder="400"/></td>
+                <td style={{ padding:3 }}><input type="number" step="0.01" value={row.pt} onChange={e => upd(row.id,"pt",e.target.value)} style={{ ...inp, width:65 }} placeholder="0.40"/></td>
+                <td style={{ padding:3 }}><input type="number" step="0.01" value={row.pc} onChange={e => upd(row.id,"pc",e.target.value)} style={{ ...inp, width:65 }} placeholder="0.43"/></td>
+                <td style={{ padding:3 }}><select value={row.ch} onChange={e => upd(row.id,"ch",e.target.value)} style={{ ...inp, width:110 }}>{CHANNELS.map(c => <option key={c}>{c}</option>)}</select></td>
+                <td style={{ padding:3 }}><button onClick={() => setRows(rs => rs.filter(r => r.id !== row.id))} style={{ background:"#fee2e2", border:"none", borderRadius:4, color:"#991b1b", cursor:"pointer", padding:"4px 8px", fontSize:11 }}>✕</button></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div style={{ display:"flex", gap:10, marginTop:14, flexWrap:"wrap" }}>
+        <button onClick={() => setRows(rs => [...rs, emptyRow()])} style={{ background:"#eff6ff", border:"1px solid #bfdbfe", borderRadius:8, color:"#1d4ed8", cursor:"pointer", padding:"8px 14px", fontSize:13, fontWeight:600 }}>{t.addRow}</button>
+        <button onClick={() => { const v = rows.filter(r => r.qty && r.variety); if (!v.length) return; onPub(v, day); setRows([emptyRow()]); }}
+          style={{ background:"#0f172a", border:"none", borderRadius:8, color:"#fff", cursor:"pointer", padding:"8px 18px", fontSize:13, fontWeight:700 }}>{t.publish}</button>
+        <button onClick={() => setRows([emptyRow()])} style={{ background:"#f1f5f9", border:"1px solid #e2e8f0", borderRadius:8, color:"#6b7280", cursor:"pointer", padding:"8px 14px", fontSize:13 }}>{t.clear}</button>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   AVAILABILITY TAB
+   ══════════════════════════════════════════════════════════════════════════ */
+
+function AvailTab({ lists, res, eff, isF, va, onRes, onDelRow, onEditRow, onStatus, onDelList, t }) {
+  const [modal, setModal] = useState(null);
+  const [cfm, setCfm] = useState(null);
+  const canEdit = isF && !va;
+  const canRes  = !isProcLike(eff.role);
+
+  const sorted = [...lists].sort((a, b) => {
+    const o = { active:0, "at-risk":1, expired:2 };
+    const sa = getStatus(a), sb = getStatus(b);
+    return o[sa] !== o[sb] ? o[sa] - o[sb] : new Date(b.at) - new Date(a.at);
+  });
+
+  if (!sorted.length) return <div style={{ padding:40, textAlign:"center", color:"#9ca3af", fontSize:14 }}>{t.noLists}</div>;
+
+  return (
+    <div style={{ padding:16 }}>
+      {modal?.t === "res" && <ReserveModal row={modal.row} onConfirm={q => onRes(modal.lid, modal.row.id, q, eff.name)} onClose={() => setModal(null)} t={t} />}
+      {modal?.t === "edit" && <EditModal row={modal.row} onSave={u => { onEditRow(modal.lid, modal.row.id, u); setModal(null); }} onClose={() => setModal(null)} t={t} />}
+      {cfm && <ConfirmModal msg={cfm.msg} onYes={() => { cfm.fn(); setCfm(null); }} onNo={() => setCfm(null)} />}
+
+      {sorted.map(list => {
+        const st = getStatus(list), sc = SC[st];
+        return (
+          <div key={list.id} style={{ background:"#fff", borderRadius:12, border:`1px solid ${sc.bd}`, marginBottom:18, overflow:"hidden", boxShadow:"0 1px 4px rgba(0,0,0,0.06)" }}>
+            <div style={{ background:sc.bg, padding:"10px 14px", display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:8 }}>
+              <div style={{ display:"flex", alignItems:"center", gap:10, flexWrap:"wrap" }}>
+                <span style={{ background:sc.c, color:"#fff", borderRadius:5, padding:"2px 8px", fontSize:10, fontWeight:700, letterSpacing:1 }}>
+                  {st === "active" ? t.active : st === "at-risk" ? t.atRisk : t.expired}
+                </span>
+                <span style={{ fontSize:12, fontWeight:700, color:"#1e293b" }}>
+                  {list.day === "monday" ? `🌙 ${t.mon}` : `📅 ${t.tue}`}
+                </span>
+                <span style={{ fontSize:11, color:"#6b7280" }}>{t.by} <b>{list.who}</b> {t.at} {fmt(list.at)}</span>
+              </div>
+              {canEdit && (
+                <div style={{ display:"flex", gap:6 }}>
+                  <button onClick={() => onStatus(list.id, st === "expired" ? null : "expired")}
+                    style={{ background: st === "expired" ? "#dcfce7" : "#fee2e2", border:"none", borderRadius:6, padding:"3px 9px", fontSize:11, cursor:"pointer", fontWeight:600, color: st === "expired" ? "#166534" : "#991b1b" }}>
+                    {st === "expired" ? t.restore : t.expire}
+                  </button>
+                  <button onClick={() => setCfm({ msg:t.cDelList, fn:() => onDelList(list.id) })}
+                    style={{ background:"#fee2e2", border:"none", borderRadius:6, padding:"3px 9px", fontSize:11, cursor:"pointer", fontWeight:600, color:"#991b1b" }}>{t.delList}</button>
+                </div>
+              )}
+            </div>
+            <div style={{ overflowX:"auto" }}>
+              <table style={{ width:"100%", borderCollapse:"collapse", fontSize:12, minWidth:780 }}>
+                <thead>
+                  <tr style={{ background:"#f8fafc", borderBottom:"1px solid #e2e8f0" }}>
+                    {[t.qty, t.box, t.variety, t.len, t.farm, t.stems, t.pt, t.pc, t.ch, t.avail, t.actions].map((h, i) => (
+                      <th key={i} style={{ padding:"7px 9px", textAlign:"left", fontWeight:600, color:"#374151", whiteSpace:"nowrap", fontSize:11 }}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {list.rows.map(row => {
+                    const rr = res.filter(r => r.rid === row.id);
+                    const out = row.rem <= 0;
+                    return (
+                      <tr key={row.id} style={{ borderBottom:"1px solid #f1f5f9", background: out ? "#fafafa" : "#fff", opacity: out ? 0.65 : 1 }}>
+                        <td style={{ padding:"7px 9px", fontWeight:700 }}>{row.qty}</td>
+                        <td style={{ padding:"7px 9px" }}><span style={{ background:"#eff6ff", color:"#1d4ed8", borderRadius:4, padding:"2px 6px", fontWeight:700, fontSize:11 }}>{row.boxType}</span></td>
+                        <td style={{ padding:"7px 9px", fontWeight:600 }}>{row.variety}</td>
+                        <td style={{ padding:"7px 9px", color:"#6b7280" }}>{row.length}</td>
+                        <td style={{ padding:"7px 9px", color:"#6b7280", fontSize:11 }}>{row.farm}</td>
+                        <td style={{ padding:"7px 9px" }}>{row.stems}</td>
+                        <td style={{ padding:"7px 9px", color:"#059669", fontWeight:700 }}>${row.pt}</td>
+                        <td style={{ padding:"7px 9px", color:"#059669", fontWeight:700 }}>${row.pc}</td>
+                        <td style={{ padding:"7px 9px", fontSize:11, color:"#6b7280" }}>{row.ch}</td>
+                        <td style={{ padding:"7px 9px" }}>
+                          <span style={{ fontWeight:700, fontSize:13, color: row.rem > 0 ? "#059669" : "#dc2626" }}>{row.rem}</span>
+                          <span style={{ color:"#9ca3af", fontSize:11 }}> {t.of} {row.qty}</span>
+                        </td>
+                        <td style={{ padding:"7px 9px" }}>
+                          <div style={{ display:"flex", flexDirection:"column", gap:4 }}>
+                            <div style={{ display:"flex", gap:4, flexWrap:"wrap" }}>
+                              {canRes && st !== "expired" && !out && (
+                                <Btn onClick={() => setModal({ t:"res", lid:list.id, row })} style={{ padding:"3px 9px", fontSize:11 }}>{t.reserve}</Btn>
+                              )}
+                              {canEdit && (
+                                <>
+                                  <button onClick={() => setModal({ t:"edit", lid:list.id, row })} style={{ background:"#eff6ff", border:"none", borderRadius:5, color:"#1d4ed8", padding:"3px 7px", fontSize:11, cursor:"pointer" }}>{t.edit}</button>
+                                  <button onClick={() => setCfm({ msg:t.cDel, fn:() => onDelRow(list.id, row.id) })} style={{ background:"#fee2e2", border:"none", borderRadius:5, color:"#991b1b", padding:"3px 7px", fontSize:11, cursor:"pointer" }}>{t.del}</button>
+                                </>
+                              )}
+                            </div>
+                            {rr.length > 0 && (
+                              <div style={{ fontSize:10, color:"#7C3AED", fontWeight:600 }}>
+                                {rr.map(r => `${r.who}(${r.qty})`).join(", ")}
+                              </div>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   RESERVATIONS TAB
+   ══════════════════════════════════════════════════════════════════════════ */
+
+function ResTab({ res, lists, eff, isF, va, onCancel, t }) {
+  const [cfm, setCfm] = useState(null);
+  const all = (isF && !va) || isProcLike(eff.role);
+  const canVoid = (isF && !va) || eff.role === "procurement";
+  const shown = all ? res : res.filter(r => r.who === eff.name);
+  const getRow = (r) => { const l = lists.find(x => x.id === r.lid); return l ? l.rows.find(x => x.id === r.rid) : null; };
+
+  if (!shown.length) return <div style={{ padding:40, textAlign:"center", color:"#9ca3af", fontSize:14 }}>{t.noRes}</div>;
+
+  return (
+    <div style={{ padding:16 }}>
+      {cfm && <ConfirmModal msg={cfm.msg} onYes={() => { cfm.fn(); setCfm(null); }} onNo={() => setCfm(null)} />}
+      <div style={{ background:"#fff", borderRadius:12, border:"1px solid #e2e8f0", overflow:"hidden" }}>
+        <table style={{ width:"100%", borderCollapse:"collapse", fontSize:12 }}>
+          <thead>
+            <tr style={{ background:"#f8fafc", borderBottom:"1px solid #e2e8f0" }}>
+              {[t.uName, t.variety, t.qty, t.farm, t.time, ...(canVoid ? [t.actions] : [])].map((h, i) => (
+                <th key={i} style={{ padding:"9px 12px", textAlign:"left", fontWeight:600, color:"#374151", fontSize:11 }}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {shown.map(r => {
+              const row = getRow(r);
+              return (
+                <tr key={r.id} style={{ borderBottom:"1px solid #f8fafc" }}>
+                  <td style={{ padding:"9px 12px" }}><span style={{ background:"#ede9fe", color:"#7C3AED", borderRadius:4, padding:"2px 7px", fontWeight:700, fontSize:11 }}>{r.who}</span></td>
+                  <td style={{ padding:"9px 12px", fontWeight:600 }}>{row ? `${row.variety} ${row.length}cm (${row.boxType})` : "—"}</td>
+                  <td style={{ padding:"9px 12px", fontWeight:700, fontSize:14 }}>{r.qty}</td>
+                  <td style={{ padding:"9px 12px", color:"#6b7280", fontSize:11 }}>{row ? row.farm : "—"}</td>
+                  <td style={{ padding:"9px 12px", color:"#6b7280", fontSize:11 }}>{fmt(r.at)}</td>
+                  {canVoid && (
+                    <td style={{ padding:"9px 12px" }}>
+                      <button onClick={() => setCfm({ msg:t.cVoid, fn:() => onCancel(r.id) })}
+                        style={{ background:"#fee2e2", border:"none", borderRadius:5, color:"#991b1b", padding:"3px 9px", fontSize:11, cursor:"pointer", fontWeight:600 }}>{t.void}</button>
+                    </td>
+                  )}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   AUDIT TAB
+   ══════════════════════════════════════════════════════════════════════════ */
+
+function AuditTab({ audit, t }) {
+  if (!audit.length) return <div style={{ padding:40, textAlign:"center", color:"#9ca3af", fontSize:14 }}>{t.noAudit}</div>;
+  const ac = (a) => a.includes("PUB") ? "#059669" : a.includes("RES") ? "#7C3AED" : (a.includes("CAN") || a.includes("DEL")) ? "#dc2626" : "#d97706";
+  return (
+    <div style={{ padding:16 }}>
+      <div style={{ background:"#fff", borderRadius:12, border:"1px solid #e2e8f0", overflow:"hidden" }}>
+        <table style={{ width:"100%", borderCollapse:"collapse", fontSize:12 }}>
+          <thead>
+            <tr style={{ background:"#f8fafc", borderBottom:"1px solid #e2e8f0" }}>
+              {[t.time, t.uName, t.action, t.detail].map((h, i) => (
+                <th key={i} style={{ padding:"9px 12px", textAlign:"left", fontWeight:600, color:"#374151", fontSize:11 }}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {audit.map(e => (
+              <tr key={e.id} style={{ borderBottom:"1px solid #f8fafc" }}>
+                <td style={{ padding:"8px 12px", color:"#6b7280", fontSize:11, whiteSpace:"nowrap" }}>{fmt(e.at)}</td>
+                <td style={{ padding:"8px 12px", fontWeight:700 }}>{e.who}</td>
+                <td style={{ padding:"8px 12px" }}>
+                  <span style={{ background:`${ac(e.act)}18`, color:ac(e.act), borderRadius:4, padding:"2px 8px", fontSize:10, fontWeight:700 }}>{e.act}</span>
+                </td>
+                <td style={{ padding:"8px 12px", color:"#374151" }}>{e.det}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   USERS TAB
+   ══════════════════════════════════════════════════════════════════════════ */
+
+function UsersTab({ pwds, onUpd, t, logo, onLogo }) {
+  const [vals, setVals]   = useState({});
+  const [saved, setSaved] = useState({});
+  const [show, setShow]   = useState({});
+  const [logoMsg, setLogoMsg] = useState("");
+
+  const submit = (u) => {
+    const v = (vals[u.id] || "").trim();
+    if (!v) return;
+    onUpd(u.id, v);
+    setSaved(p => ({ ...p, [u.id]: true }));
+    setVals(p => ({ ...p, [u.id]: "" }));
+    setTimeout(() => setSaved(p => ({ ...p, [u.id]: false })), 2500);
+  };
+
+  const handleLogo = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      onLogo(reader.result);
+      setLogoMsg("✓ Logo uploaded!");
+      setTimeout(() => setLogoMsg(""), 3000);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  return (
+    <div style={{ padding:20 }}>
+      {/* Logo Upload Section */}
+      <div style={{ background:"#fff", border:"1px solid #e2e8f0", borderRadius:12, padding:20, marginBottom:24, maxWidth:520 }}>
+        <div style={{ fontWeight:700, fontSize:14, color:"#1e293b", marginBottom:8 }}>🎨 Company Logo</div>
+        <div style={{ fontSize:12, color:"#6b7280", marginBottom:14 }}>Upload your logo (PNG/JPG). It will appear on the login screen and header across all pages.</div>
+        <div style={{ display:"flex", alignItems:"center", gap:12, flexWrap:"wrap" }}>
+          {logo && <img src={logo} alt="Current logo" style={{ height:40, width:"auto", objectFit:"contain", border:"1px solid #e2e8f0", borderRadius:6, padding:4 }} />}
+          <label style={{ background:"#7C3AED", color:"#fff", borderRadius:8, padding:"8px 16px", fontSize:12, fontWeight:600, cursor:"pointer", display:"inline-block" }}>
+            {logo ? "Change Logo" : "Upload Logo"}
+            <input type="file" accept="image/*" onChange={handleLogo} style={{ display:"none" }} />
+          </label>
+          {logo && <button onClick={() => { onLogo(null); setLogoMsg("Logo removed."); setTimeout(() => setLogoMsg(""), 3000); }}
+            style={{ background:"#fee2e2", border:"none", borderRadius:8, color:"#991b1b", padding:"8px 14px", fontSize:12, cursor:"pointer", fontWeight:600 }}>Remove</button>}
+          {logoMsg && <span style={{ fontSize:12, color:"#059669", fontWeight:600 }}>{logoMsg}</span>}
+        </div>
+      </div>
+
+      {/* Password Management */}
+      <div style={{ fontWeight:700, fontSize:16, marginBottom:4, color:"#1e293b" }}>{t.usersTitle}</div>
+      <div style={{ fontSize:12, color:"#6b7280", marginBottom:20 }}>Only Michael can change passwords.</div>
+      <div style={{ display:"flex", flexDirection:"column", gap:10, maxWidth:520 }}>
+        {USERS.map(u => (
+          <div key={u.id} style={{ background:"#fff", border:"1px solid #e2e8f0", borderRadius:12, padding:"14px 16px", display:"flex", alignItems:"center", gap:12, flexWrap:"wrap" }}>
+            <div style={{ width:36, height:36, borderRadius:"50%", background:"#ede9fe", display:"flex", alignItems:"center", justifyContent:"center", fontSize:18, flexShrink:0 }}>
+              {roleIcon(u.role)}
+            </div>
+            <div style={{ minWidth:90 }}>
+              <div style={{ fontWeight:700, fontSize:13, color:"#1e293b" }}>{u.name}</div>
+              <div style={{ fontSize:11, color:"#6b7280" }}>{t[u.role]}</div>
+            </div>
+            <div style={{ flex:1, display:"flex", gap:6, alignItems:"center", minWidth:200 }}>
+              <div style={{ position:"relative", flex:1 }}>
+                <input type={show[u.id] ? "text" : "password"} placeholder={t.newPwd} value={vals[u.id] || ""}
+                  onChange={e => setVals(p => ({ ...p, [u.id]: e.target.value }))}
+                  onKeyDown={e => e.key === "Enter" && submit(u)}
+                  style={{ width:"100%", border:"1px solid #e2e8f0", borderRadius:7, padding:"7px 32px 7px 10px", fontSize:12, boxSizing:"border-box" }} />
+                <button onClick={() => setShow(p => ({ ...p, [u.id]: !p[u.id] }))}
+                  style={{ position:"absolute", right:6, top:"50%", transform:"translateY(-50%)", background:"none", border:"none", cursor:"pointer", fontSize:12, color:"#94a3b8" }}>
+                  {show[u.id] ? "🙈" : "👁"}
+                </button>
+              </div>
+              <Btn onClick={() => submit(u)} style={{ padding:"7px 12px", whiteSpace:"nowrap" }}>{t.update}</Btn>
+              <button onClick={() => { onUpd(u.id, u.pwd); setSaved(p => ({ ...p, [u.id]: true })); setTimeout(() => setSaved(p => ({ ...p, [u.id]: false })), 2500); }}
+                style={{ background:"#f1f5f9", border:"none", borderRadius:7, color:"#374151", padding:"7px 10px", fontSize:11, cursor:"pointer", whiteSpace:"nowrap" }}>
+                {t.reset}
+              </button>
+            </div>
+            {saved[u.id] && <span style={{ fontSize:11, color:"#059669", fontWeight:600 }}>✓ {t.pwdOk}</span>}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   APP ROOT
+   ══════════════════════════════════════════════════════════════════════════ */
+
+function App() {
+  const [user,  setUser]  = useState(null);
+  const [lang,  setLang]  = useState("en");
+  const [lists, setLists] = useState([]);
+  const [res,   setRes]   = useState([]);
+  const [audit, setAudit] = useState([]);
+  const [pwds,  setPwds]  = useState({});
+  const [logo,  setLogo]  = useState(null);
+  const [ok,    setOk]    = useState(false);
+  const [va,    setVa]    = useState(null);
+  const [tab,   setTab]   = useState("avail");
+  const t = T[lang];
+
+  useEffect(() => {
+    (async () => {
+      const [l, r, a, p, lg] = await Promise.all([sGet(SK.l), sGet(SK.r), sGet(SK.a), sGet(SK.p), sGet(SK.logo)]);
+      setLists(l || []); setRes(r || []); setAudit(a || []); setPwds(p || {}); setLogo(lg || null); setOk(true);
+    })();
+  }, []);
+
+  useEffect(() => { if (ok) sSet(SK.l, lists); },  [lists, ok]);
+  useEffect(() => { if (ok) sSet(SK.r, res); },    [res, ok]);
+  useEffect(() => { if (ok) sSet(SK.a, audit); },  [audit, ok]);
+  useEffect(() => { if (ok) sSet(SK.p, pwds); },   [pwds, ok]);
+  useEffect(() => { if (ok) sSet(SK.logo, logo); }, [logo, ok]);
+
+  const log = (act, det, who) => setAudit(a => [{ id:uid(), who, act, det, at:new Date().toISOString() }, ...a]);
+
+  const pub = (rows, day) => {
+    const list = { id:uid(), who:user.name, at:new Date().toISOString(), day, rows:rows.map(r => ({ ...r, rem:Number(r.qty) })), ms:null };
+    setLists(l => [list, ...l]);
+    log("PUBLISH", `${rows.length} rows | ${day}`, user.name);
+  };
+
+  const sendNotification = (who, qty, row) => {
+    try {
+      const cc = USERS.map(u => u.email).join(",");
+      const subject = `URKU DAILY - New Reservation by ${who}`;
+      const body = `New reservation in URKU Availability Tracker:
+
+Sales Rep: ${who}
+Quantity: ${qty} box(es)
+Variety: ${row.variety}
+Length: ${row.length}cm
+Box Type: ${row.boxType}
+Farm: ${row.farm}
+Stems: ${row.stems}
+Price (Transfer): ${row.pt}
+Price (Card): ${row.pc}
+Channel: ${row.ch}
+Remaining after reservation: ${row.rem - qty}
+
+Timestamp: ${new Date().toLocaleString()}
+
+---
+URKU Availability Tracker - Desarrollado por Michael Llerena`;
+      window.open(`mailto:sales@urkuexpressions.com?cc=${encodeURIComponent(cc)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, "_blank");
+    } catch (err) {
+      console.error("Mailto notification failed:", err);
+    }
+  };
+
+  const reserve = (lid, rid, qty, who) => {
+    const list = lists.find(l => l.id === lid);
+    const row = list ? list.rows.find(r => r.id === rid) : null;
+    if (row) sendNotification(who, qty, row);
+    const r = { id:uid(), lid, rid, qty:Number(qty), who, at:new Date().toISOString() };
+    setRes(rs => [r, ...rs]);
+    setLists(ls => ls.map(l => l.id !== lid ? l : { ...l, rows:l.rows.map(r => r.id !== rid ? r : { ...r, rem:r.rem - Number(qty) }) }));
+    log("RESERVE", `${who} reserved ${qty} box(es)`, who);
+  };
+
+  const cancel = (resId) => {
+    const r = res.find(x => x.id === resId); if (!r) return;
+    setRes(rs => rs.filter(x => x.id !== resId));
+    setLists(ls => ls.map(l => l.id !== r.lid ? l : { ...l, rows:l.rows.map(x => x.id !== r.rid ? x : { ...x, rem:x.rem + r.qty }) }));
+    log("CANCEL", `Voided ${r.who}'s ${r.qty} box(es)`, user.name);
+  };
+
+  const delRow = (lid, rid) => {
+    setLists(ls => ls.map(l => l.id !== lid ? l : { ...l, rows:l.rows.filter(r => r.id !== rid) }));
+    log("DELETE_ROW", "Row deleted", user.name);
+  };
+
+  const editRow = (lid, rid, upd) => {
+    setLists(ls => ls.map(l => l.id !== lid ? l : { ...l, rows:l.rows.map(r => r.id !== rid ? r : { ...r, ...upd, id:r.id, rem:r.rem }) }));
+    log("EDIT_ROW", "Row edited", user.name);
+  };
+
+  const setSt = (lid, s) => {
+    setLists(ls => ls.map(l => l.id !== lid ? l : { ...l, ms:s }));
+    log("STATUS", `=> ${s || "auto"}`, user.name);
+  };
+
+  const delList = (lid) => {
+    setLists(ls => ls.filter(l => l.id !== lid));
+    log("DELETE_LIST", "List deleted", user.name);
+  };
+
+  const updPwd = (uid2, np) => {
+    setPwds(p => ({ ...p, [uid2]: np }));
+    log("PWD_CHANGE", `Password changed for ${uid2}`, user.name);
+  };
+
+  const isF = user?.role === "founder";
+  const eff = va && isF ? USERS.find(u => u.id === va) : user;
+
+  if (!ok) return <div style={{ minHeight:"100vh", background:"#0f172a", display:"flex", alignItems:"center", justifyContent:"center", color:"#94a3b8" }}>Loading...</div>;
+  if (!user) return <Login onLogin={u => { setUser(u); setTab("avail"); }} lang={lang} setLang={setLang} t={t} pwds={pwds} logo={logo} />;
+
+  return (
+    <div style={{ minHeight:"100vh", background:"#f8fafc" }}>
+      <Header user={user} isF={isF} va={va} setVa={id => { setVa(id || null); setTab("avail"); }} setLang={setLang} t={t}
+        onLogout={() => { setUser(null); setVa(null); setTab("avail"); }} tab={tab} setTab={setTab} logo={logo} />
+      {va && (
+        <div style={{ background:"#fef9c3", borderBottom:"1px solid #fde047", padding:"5px 16px", fontSize:11, color:"#854d0e", fontWeight:600 }}>
+          👁 {t.prevAs}: <b>{USERS.find(u => u.id === va)?.name}</b> — {t.adminNote}
+        </div>
+      )}
+      <div style={{ maxWidth:1400, margin:"0 auto" }}>
+        {tab === "upload" && !va && (user.role === "founder" || isProcLike(user.role)) && <UploadForm onPub={pub} t={t} />}
+        {tab === "avail" && <AvailTab lists={lists} res={res} eff={eff} isF={isF} va={va} onRes={reserve} onDelRow={delRow} onEditRow={editRow} onStatus={setSt} onDelList={delList} t={t} />}
+        {tab === "res" && <ResTab res={res} lists={lists} eff={eff} isF={isF} va={va} onCancel={cancel} t={t} />}
+        {tab === "audit" && isF && !va && <AuditTab audit={audit} t={t} />}
+        {tab === "users" && isF && !va && <UsersTab pwds={pwds} onUpd={updPwd} t={t} logo={logo} onLogo={setLogo} />}
+        <Footer />
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
 </script>
 </body>
 </html>
